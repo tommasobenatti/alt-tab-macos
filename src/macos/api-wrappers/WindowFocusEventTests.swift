@@ -2,7 +2,7 @@ import CoreGraphics
 import XCTest
 
 final class WindowFocusEventTests: XCTestCase {
-    private func records(windowId: CGWindowID = 0x12345678) -> [[UInt8]] {
+    private func records(windowId: CGWindowID = 0x1234_5678) -> [[UInt8]] {
         var records = [[UInt8]]()
         WindowFocusEvent.post(windowId: windowId) { pointer in
             records.append(Array(UnsafeBufferPointer(start: pointer, count: WindowFocusEvent.bufferSize)))
@@ -32,16 +32,16 @@ final class WindowFocusEventTests: XCTestCase {
 
     func testBothEdgesTargetTheSameWindow() {
         for record in records() {
-            XCTAssertEqual(read(record, at: 0x3c, as: UInt32.self), 0x12345678)
-            XCTAssertEqual(record[0x3a], 0x10)
+            XCTAssertEqual(read(record, at: 0x3C, as: UInt32.self), 0x1234_5678)
+            XCTAssertEqual(record[0x3A], 0x10)
         }
     }
 
     func testRecordLengthKeepsTheWindowServerReadPaddingZeroed() {
         for record in records() {
             XCTAssertEqual(record.count, 0x100)
-            XCTAssertEqual(read(record, at: 0x04, as: UInt32.self), 0xf8)
-            XCTAssertTrue(record[0xf8..<0x100].allSatisfy { $0 == 0 })
+            XCTAssertEqual(read(record, at: 0x04, as: UInt32.self), 0xF8)
+            XCTAssertTrue(record[0xF8 ..< 0x100].allSatisfy { $0 == 0 })
         }
     }
 
@@ -54,7 +54,7 @@ final class WindowFocusEventTests: XCTestCase {
 
     func testUnsignedWindowIdIsNotTruncated() {
         for record in records(windowId: UInt32.max) {
-            XCTAssertEqual(read(record, at: 0x3c, as: UInt32.self), UInt32.max)
+            XCTAssertEqual(read(record, at: 0x3C, as: UInt32.self), UInt32.max)
         }
     }
 
@@ -63,6 +63,6 @@ final class WindowFocusEventTests: XCTestCase {
         let second = records(windowId: 2)
         XCTAssertEqual(first.map { $0[0x08] }, [1, 2])
         XCTAssertEqual(second.map { $0[0x08] }, [1, 2])
-        XCTAssertEqual(read(second[0], at: 0x3c, as: UInt32.self), 2)
+        XCTAssertEqual(read(second[0], at: 0x3C, as: UInt32.self), 2)
     }
 }

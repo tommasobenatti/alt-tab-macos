@@ -12,11 +12,11 @@ enum WindowFocusEvent {
         var windowId = windowId
         var point = offContentPoint
         var bytes = [UInt8](repeating: 0, count: bufferSize)
-        bytes[0x04] = 0xf8
-        bytes[0x3a] = 0x10
+        bytes[0x04] = 0xF8
+        bytes[0x3A] = 0x10
         memcpy(&bytes[0x10], &point, MemoryLayout<CGPoint>.size)
         memcpy(&bytes[0x20], &point, MemoryLayout<CGPoint>.size)
-        memcpy(&bytes[0x3c], &windowId, MemoryLayout<CGWindowID>.size)
+        memcpy(&bytes[0x3C], &windowId, MemoryLayout<CGWindowID>.size)
         bytes.withUnsafeMutableBufferPointer { buffer in
             let pointer = buffer.baseAddress!
             pointer[0x08] = 0x01
