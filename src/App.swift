@@ -577,12 +577,14 @@ class App: AppCenterApplication {
             startingUpdater: false,
             updaterDelegate: App.sparkleDelegate!,
             userDriverDelegate: nil)
+        #if !MCEXP_PINNED_BUILD
         #if DEBUG
         if !Preferences.qaPristine && !QaLifecycle.enabled {
             DispatchQueue.main.asyncAfter(deadline: .now() + 30) { App.updaterController?.startUpdater() }
         }
         #else
         DispatchQueue.main.asyncAfter(deadline: .now() + 30) { App.updaterController?.startUpdater() }
+        #endif
         #endif
         PreferencesEvents.initialize()
         #if DEBUG
