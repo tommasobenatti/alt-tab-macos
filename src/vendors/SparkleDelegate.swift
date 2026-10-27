@@ -2,6 +2,21 @@ import Cocoa
 import Sparkle
 
 class SparkleDelegate: NSObject, SPUUpdaterDelegate {
+    #if MCEXP_PINNED_BUILD
+    // Keep scheduled updates from replacing the unmerged fix. Manual checks remain available.
+    func updater(_ updater: SPUUpdater, mayPerform updateCheck: SPUUpdateCheck) throws {
+        try allowManualUpdate(updateCheck)
+    }
+
+    func updater(_ updater: SPUUpdater, shouldProceedWithUpdate updateItem: SUAppcastItem, updateCheck: SPUUpdateCheck) throws {
+        try allowManualUpdate(updateCheck)
+    }
+
+    private func allowManualUpdate(_ check: SPUUpdateCheck) throws {
+        if check == .updatesInBackground { throw CocoaError(.userCancelled) }
+    }
+    #endif
+
     /// Outcome of a Sparkle update check from the app's point of view. We collapse "no update
     /// found" and "check failed" into `.upToDate` because every caller wants the same
     /// fallthrough behavior in both cases.
