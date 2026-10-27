@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A02720261027000000000201 /* WindowFocusEventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02720261027000000000101 /* WindowFocusEventTests.swift */; };
 		A02020261020000000000001 /* ProFeatureCopy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA001000000000000000010 /* ProFeatureCopy.swift */; };
 		A01920261019000000020001 /* ProPromptTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01920261019000000010001 /* ProPromptTestSupport.swift */; };
 		A01920261019000000020000 /* ProPromptFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01920261019000000010000 /* ProPromptFlowTests.swift */; };
@@ -489,6 +490,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A02720261027000000000101 /* WindowFocusEventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowFocusEventTests.swift; sourceTree = "<group>"; };
 		A01920261019000000010001 /* ProPromptTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = src/_test-support/ProPromptTestSupport.swift; sourceTree = SOURCE_ROOT; };
 		A01920261019000000010000 /* ProPromptFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = src/pro/ui/ProPromptFlowTests.swift; sourceTree = SOURCE_ROOT; };
 		F01700000000000000000001 /* IllustrationDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllustrationDrawer.swift; sourceTree = "<group>"; };
@@ -1603,6 +1605,7 @@
 				BF0C83EE9730BCFA41D840A9 /* README.md */,
 				BF0C8C5C0FF5D567BF190DE5 /* ApplicationServices.HIServices.framework.swift */,
 				BF0C8B94D7994AB9007F6391 /* SkyLight.framework.swift */,
+				A02720261027000000000101 /* WindowFocusEventTests.swift */,
 				5FC5980000000000000C0001 /* CGSSymbolicHotKey.swift */,
 			);
 			path = "api-wrappers";
@@ -2233,6 +2236,7 @@
 				5EC0DE00000000000000A102 /* RealWorldScenariosTests.swift in Sources */,
 				5EF0C000000000000000F103 /* FocusIntentPolicy.swift in Sources */,
 				5EF0C000000000000000F202 /* FocusIntentPolicyTests.swift in Sources */,
+				A02720261027000000000201 /* WindowFocusEventTests.swift in Sources */,
 				AA2026092800000000000003 /* PermissionCheckRetry.swift in Sources */,
 				AA2026092800000000000013 /* AnchoredPopover.swift in Sources */,
 				AA2026092800000000000015 /* AnchoredPopoverTests.swift in Sources */,
