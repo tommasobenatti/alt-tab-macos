@@ -24,7 +24,8 @@ import tempfile
 repo, output = map(Path, sys.argv[1:3])
 identity = sys.argv[3]
 output.mkdir(parents=True, exist_ok=True)
-stage = Path(tempfile.mkdtemp(prefix='package-', dir=output))
+stage = Path(tempfile.mkdtemp(prefix='package-', dir=output)) / 'AltTab MCExp 11.10.1'
+stage.mkdir()
 app = stage / 'AltTab.app'
 source = repo / 'DerivedDataRelease/Build/Products/Release/AltTab.app'
 subprocess.run(['ditto', str(source), str(app)], check=True)
@@ -54,7 +55,7 @@ plist.write_bytes(plistlib.dumps(metadata, fmt=plistlib.FMT_BINARY))
 subprocess.run(['codesign', '--force', '--sign', identity, '--timestamp=none', '--options', 'runtime', '--entitlements', str(repo / 'alt_tab_macos.entitlements'), str(app)], check=True)
 subprocess.run(['codesign', '--verify', '--deep', '--strict', str(app)], check=True)
 archive = output / 'AltTab-MCExp-11.10.1-arm64.zip'
-temporary_archive = output / (stage.name + '.zip')
+temporary_archive = output / (stage.parent.name + '.zip')
 subprocess.run(['ditto', '-c', '-k', '--sequesterRsrc', '--keepParent', str(stage), str(temporary_archive)], check=True)
 os.replace(temporary_archive, archive)
 receipt = {

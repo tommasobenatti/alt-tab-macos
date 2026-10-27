@@ -3,18 +3,24 @@ import Sparkle
 
 class SparkleDelegate: NSObject, SPUUpdaterDelegate {
     #if MCEXP_PINNED_BUILD
-    // Keep scheduled updates from replacing the unmerged fix. Manual checks remain available.
-    func updater(_ updater: SPUUpdater, mayPerform updateCheck: SPUUpdateCheck) throws {
-        try allowManualUpdate(updateCheck)
-    }
+        /// Keep scheduled updates from replacing the unmerged fix. Manual checks remain available.
+        func updater(_: SPUUpdater, mayPerform updateCheck: SPUUpdateCheck) throws {
+            try allowManualUpdate(updateCheck)
+        }
 
-    func updater(_ updater: SPUUpdater, shouldProceedWithUpdate updateItem: SUAppcastItem, updateCheck: SPUUpdateCheck) throws {
-        try allowManualUpdate(updateCheck)
-    }
+        func updater(
+            _: SPUUpdater,
+            shouldProceedWithUpdate _: SUAppcastItem,
+            updateCheck: SPUUpdateCheck
+        ) throws {
+            try allowManualUpdate(updateCheck)
+        }
 
-    private func allowManualUpdate(_ check: SPUUpdateCheck) throws {
-        if check == .updatesInBackground { throw CocoaError(.userCancelled) }
-    }
+        private func allowManualUpdate(_ check: SPUUpdateCheck) throws {
+            if check == .updatesInBackground {
+                throw CocoaError(.userCancelled)
+            }
+        }
     #endif
 
     /// Outcome of a Sparkle update check from the app's point of view. We collapse "no update
@@ -38,14 +44,16 @@ class SparkleDelegate: NSObject, SPUUpdaterDelegate {
     /// subscribed, the result still lands in `cachedResult`.
     var onNextCheckCompletion: ((UpdateCheckResult) -> Void)?
 
-    func feedURLString(for updater: SPUUpdater) -> String? {
-        return Endpoints.appcastUrl
+    func feedURLString(for _: SPUUpdater) -> String? {
+        Endpoints.appcastUrl
     }
 
-    /// `day` is `LicenseManager.trialDay`, the same count the "Get Pro" links carry, so trial cohorts can be sized
-    /// against purchases. A count rather than the start date: it changes every day, so unlike a date it doesn't
+    /// `day` is `LicenseManager.trialDay`, the same count the "Get Pro" links carry, so trial cohorts can be
+    /// sized
+    /// against purchases. A count rather than the start date: it changes every day, so unlike a date it
+    /// doesn't
     /// single out one install across checks. Omitted when there is no trial start.
-    func feedParameters(for updater: SPUUpdater, sendingSystemProfile sendingProfile: Bool) -> [[String: String]] {
+    func feedParameters(for _: SPUUpdater, sendingSystemProfile _: Bool) -> [[String: String]] {
         let v = ProcessInfo.processInfo.operatingSystemVersion
         let day = LicenseManager.shared.trialDay.map { [["key": "day", "value": String($0)]] } ?? []
         return [
@@ -57,11 +65,11 @@ class SparkleDelegate: NSObject, SPUUpdaterDelegate {
         ] + day
     }
 
-    func updater(_ updater: SPUUpdater, didFindValidUpdate item: SUAppcastItem) {
+    func updater(_: SPUUpdater, didFindValidUpdate item: SUAppcastItem) {
         store(.updateAvailable(item))
     }
 
-    func updaterDidNotFindUpdate(_ updater: SPUUpdater) {
+    func updaterDidNotFindUpdate(_: SPUUpdater) {
         store(.upToDate)
     }
 
